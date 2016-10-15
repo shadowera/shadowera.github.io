@@ -4,7 +4,7 @@ title:      "Hello World"
 subtitle:   " \"Hello World, Hello Blog\""
 date:       2016-10-14 12:00:00
 author:     "shadowera"
-header-img: "img/post-bg-2016-10.jpg"
+header-img: "img/in-post/post-bg-2016-10.jpg"
 catalog: true
 tags:
     - 生活

@@ -5,9 +5,78 @@
     <description>关于前端与设计、黑客与画家 | 桂帅，Web &amp; Mobile Lover，Android Engineer, 这里是 @GS桂帅 的个人博客，与你一起发现更大的世界。</description>
     <link>https://shadowera.github.io/</link>
     <atom:link href="https://shadowera.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Fri, 14 Oct 2016 19:14:14 +0800</pubDate>
-    <lastBuildDate>Fri, 14 Oct 2016 19:14:14 +0800</lastBuildDate>
+    <pubDate>Sat, 15 Oct 2016 16:35:47 +0800</pubDate>
+    <lastBuildDate>Sat, 15 Oct 2016 16:35:47 +0800</lastBuildDate>
     <generator>Jekyll v3.0.1</generator>
+    
+      <item>
+        <title>Hello World</title>
+        <description>&lt;blockquote&gt;
+  &lt;p&gt;“Yeah It’s on. ”&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;f&quot;&gt;前言f&lt;/h2&gt;
+
+&lt;p&gt;我的 Blog 就这么开通了。&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;#build&quot;&gt;跳过废话，直接看技术实现 &lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;以前看着别人漂亮的个人网站羡慕的流口水，终于决定折腾一下了。。总算有个地方可以留给自己，好好写点东西了。&lt;/p&gt;
+
+&lt;p&gt;作为一个程序员， Blog 这种轮子要是挂在大众博客程序上就太没意思了。一是觉得大部分 Blog 服务都太丑，二是觉得不能随便定制不好玩。而且自己也很懒并没有什么文采，并不好意思挂在大众网站上，大概大家都很忙，谁也没空来多看一眼毫不相关的话吧。我只是想写给自己看而已。。&lt;/p&gt;
+
+&lt;p&gt;☆_☆，有没有一点隐士的感觉。。&lt;br /&gt;
+&amp;gt;采菊东篱下，悠然现南山。&lt;/p&gt;
+
+&lt;p id=&quot;build&quot;&gt;&lt;/p&gt;
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;section&quot;&gt;正文&lt;/h2&gt;
+
+&lt;p&gt;接下来说说搭建这个博客的技术细节。&lt;/p&gt;
+
+&lt;p&gt;正好之前就有关注过 &lt;a href=&quot;https://pages.github.com/&quot;&gt;GitHub Pages&lt;/a&gt; + &lt;a href=&quot;http://jekyllrb.com/&quot;&gt;Jekyll&lt;/a&gt; 快速 Building Blog 的技术方案，非常轻松时尚。&lt;/p&gt;
+
+&lt;p&gt;其优点非常明显：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;Markdown&lt;/strong&gt; 带来的优雅写作体验&lt;/li&gt;
+  &lt;li&gt;非常熟悉的 Git workflow ，&lt;strong&gt;Git Commit 即 Blog Post&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;利用 GitHub Pages 的域名和免费无限空间，不用自己折腾主机
+    &lt;ul&gt;
+      &lt;li&gt;如果需要自定义域名，也只需要简单改改 DNS 加个 CNAME 就好了，我用的&lt;a href=&quot;http://www.dot.tk/&quot;&gt;dot TK&lt;/a&gt;提供的免费域名&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Jekyll 的自定制非常容易，基本就是个模版引擎，像我这种完全不懂web前端的都能弄好  /(ㄒoㄒ)/~~&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;当然最大的缺点可能是 GitHub 在国内访问起来太慢。&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;配置的过程中也没遇到什么坑，基本就是 Git 的流程，相当顺手&lt;/p&gt;
+
+&lt;p&gt;当然Jekyll 主题上直接 fork 了  &lt;a href=&quot;https://github.com/Huxpro/huxpro.github.io&quot;&gt;Hux Blog&lt;/a&gt;（这个主题相当不错，简洁漂亮，因为也是一个中国人弄的，标签、评论、网站统计都做好了）&lt;/p&gt;
+
+&lt;p&gt;最后就进入了耗时反而最长的&lt;strong&gt;做图、写字&lt;/strong&gt;阶段，也算是进入了&lt;strong&gt;写博客&lt;/strong&gt;的正轨，因为是类似 Hack Day 的方式去搭这个站的，所以折腾折腾着大半夜就过去了。&lt;/p&gt;
+
+&lt;h2 id=&quot;section-1&quot;&gt;后记&lt;/h2&gt;
+
+&lt;p&gt;回顾这个博客的诞生，纯粹是出于个人兴趣。&lt;/p&gt;
+
+&lt;p&gt;以后会在这里分享一些Android技术博客，学习前端（真心好羡慕会写漂亮网页的。。），更新心情。没有人看也没关系，我会一直耕耘这片自留地。&lt;/p&gt;
+
+&lt;p&gt;—— Gs 后记于 2016.10&lt;/p&gt;
+
+</description>
+        <pubDate>Fri, 14 Oct 2016 20:00:00 +0800</pubDate>
+        <link>https://shadowera.github.io/2016/10/14/hello-world/</link>
+        <guid isPermaLink="true">https://shadowera.github.io/2016/10/14/hello-world/</guid>
+        
+        <category>生活</category>
+        
+        
+      </item>
     
   </channel>
 </rss>

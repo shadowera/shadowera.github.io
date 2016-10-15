@@ -4,7 +4,7 @@ title:      "Hello World"
 subtitle:   " \"Hello World, Hello Blog\""
 date:       2016-10-14 12:00:00
 author:     "shadowera"
-header-img: "img/post-bg-2015.jpg"
+header-img: "img/post-bg-2016-10.jpg"
 catalog: true
 tags:
     - 生活
@@ -13,7 +13,7 @@ tags:
 > “Yeah It's on. ”
 
 
-## 前言f
+## 前言
 
 我的 Blog 就这么开通了。
 
@@ -27,6 +27,7 @@ tags:
 作为一个程序员， Blog 这种轮子要是挂在大众博客程序上就太没意思了。一是觉得大部分 Blog 服务都太丑，二是觉得不能随便定制不好玩。而且自己也很懒并没有什么文采，并不好意思挂在大众网站上，大概大家都很忙，谁也没空来多看一眼毫不相关的话吧。我只是想写给自己看而已。。
 
 ☆_☆，有没有一点隐士的感觉。。
+
 >采菊东篱下，悠然现南山。
 
 

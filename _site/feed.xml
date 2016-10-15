@@ -5,8 +5,8 @@
     <description>关于前端与设计、黑客与画家 | 桂帅，Web &amp; Mobile Lover，Android Engineer, 这里是 @GS桂帅 的个人博客，与你一起发现更大的世界。</description>
     <link>https://shadowera.github.io/</link>
     <atom:link href="https://shadowera.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Sat, 15 Oct 2016 16:35:47 +0800</pubDate>
-    <lastBuildDate>Sat, 15 Oct 2016 16:35:47 +0800</lastBuildDate>
+    <pubDate>Sat, 15 Oct 2016 17:13:11 +0800</pubDate>
+    <lastBuildDate>Sat, 15 Oct 2016 17:13:11 +0800</lastBuildDate>
     <generator>Jekyll v3.0.1</generator>
     
       <item>
@@ -15,7 +15,7 @@
   &lt;p&gt;“Yeah It’s on. ”&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;h2 id=&quot;f&quot;&gt;前言f&lt;/h2&gt;
+&lt;h2 id=&quot;section&quot;&gt;前言&lt;/h2&gt;
 
 &lt;p&gt;我的 Blog 就这么开通了。&lt;/p&gt;
 
@@ -25,13 +25,16 @@
 
 &lt;p&gt;作为一个程序员， Blog 这种轮子要是挂在大众博客程序上就太没意思了。一是觉得大部分 Blog 服务都太丑，二是觉得不能随便定制不好玩。而且自己也很懒并没有什么文采，并不好意思挂在大众网站上，大概大家都很忙，谁也没空来多看一眼毫不相关的话吧。我只是想写给自己看而已。。&lt;/p&gt;
 
-&lt;p&gt;☆_☆，有没有一点隐士的感觉。。&lt;br /&gt;
-&amp;gt;采菊东篱下，悠然现南山。&lt;/p&gt;
+&lt;p&gt;☆_☆，有没有一点隐士的感觉。。&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;采菊东篱下，悠然现南山。&lt;/p&gt;
+&lt;/blockquote&gt;
 
 &lt;p id=&quot;build&quot;&gt;&lt;/p&gt;
 &lt;hr /&gt;
 
-&lt;h2 id=&quot;section&quot;&gt;正文&lt;/h2&gt;
+&lt;h2 id=&quot;section-1&quot;&gt;正文&lt;/h2&gt;
 
 &lt;p&gt;接下来说说搭建这个博客的技术细节。&lt;/p&gt;
 
@@ -60,7 +63,7 @@
 
 &lt;p&gt;最后就进入了耗时反而最长的&lt;strong&gt;做图、写字&lt;/strong&gt;阶段，也算是进入了&lt;strong&gt;写博客&lt;/strong&gt;的正轨，因为是类似 Hack Day 的方式去搭这个站的，所以折腾折腾着大半夜就过去了。&lt;/p&gt;
 
-&lt;h2 id=&quot;section-1&quot;&gt;后记&lt;/h2&gt;
+&lt;h2 id=&quot;section-2&quot;&gt;后记&lt;/h2&gt;
 
 &lt;p&gt;回顾这个博客的诞生，纯粹是出于个人兴趣。&lt;/p&gt;
 

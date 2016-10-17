@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>GS Blog</title>
+    <title>Gs Blog</title>
     <description>关于前端与设计、黑客与画家 | 桂帅，Web &amp; Mobile Lover，Android Engineer, 这里是 @GS桂帅 的个人博客，与你一起发现更大的世界。</description>
     <link>https://shadowera.github.io/</link>
     <atom:link href="https://shadowera.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Mon, 17 Oct 2016 17:10:06 +0800</pubDate>
-    <lastBuildDate>Mon, 17 Oct 2016 17:10:06 +0800</lastBuildDate>
+    <pubDate>Mon, 17 Oct 2016 19:07:20 +0800</pubDate>
+    <lastBuildDate>Mon, 17 Oct 2016 19:07:20 +0800</lastBuildDate>
     <generator>Jekyll v3.0.1</generator>
     
       <item>

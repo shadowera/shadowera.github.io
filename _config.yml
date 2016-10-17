@@ -1,6 +1,6 @@
 # Site settings
-title: GS Blog
-SEOTitle: 桂帅的博客 | GS Blog
+title: Gs Blog
+SEOTitle: 桂帅的博客 | Gs Blog
 header-img: img/about-bg.jpg
 email: buaaguishuai@hotmail.com
 description: "关于前端与设计、黑客与画家 | 桂帅，Web & Mobile Lover，Android Engineer, 这里是 @GS桂帅 的个人博客，与你一起发现更大的世界。"
@@ -16,6 +16,7 @@ weibo_username:     3753410913
 zhihu_username:     gui-shuai-1
 github_username:    shadowera
 twitter_username:   _shadowera
+email:  buaaguishuai@hotmail.com
 #facebook_username:  
 # linkedin_username:  firstname-lastname-idxxxx
 
@@ -86,14 +87,58 @@ chrome-tab-theme-color: "#000000"
 service-worker: true
 
 
-
 # Friends
 friends: [
-    #{
-#        title: "Su",
- #       href: "http://su.gallery/"
-  #  },{
-   #     title: "乱序",
-    #    href: "http://mida.re/"
-#    }
+    {
+        title: "DiyCode",
+        href: "http://www.diycode.cc/"
+    },
+    {
+        title: "CodeKK",
+        href: "http://codekk.com"
+    },
+    {
+        title: "Trinea",
+        href: "http://www.trinea.cn/"
+    },
+    {
+        title: "Stay",
+        href: "http://notes.stay4it.com/"
+    },
+    {
+        title: "安卓开发者官博",
+        href: "http://android-developers.blogspot.com/"
+    },
+    {
+        title: "老罗的Android之旅",
+        href: "http://blog.csdn.net/Luoshengyang"
+    },
+    {
+        title: "胡凯",
+        href: "http://hukai.me/"
+    },
+    {
+        title: "代码家",
+        href: "http://blog.daimajia.com/"
+    },
+    {
+        title: "郭霖的专栏",
+        href: "http://blog.csdn.net/guolin_blog"
+    },
+    {
+        title: "stormzhang博客精华",
+        href: "http://stormzhang.com/"
+    },
+    {
+        title: "张鸿洋",
+        href: "http://blog.csdn.net/lmj623565791/"
+    },
+    {
+        title: "张兴业的博客",
+        href: "http://blog.csdn.net/xyz_lmn"
+    },
+    {
+        title: "hi大头鬼hi",
+        href: "http://blog.csdn.net/lzyzsd/"
+    }
 ]

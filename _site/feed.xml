@@ -5,9 +5,279 @@
     <description>关于前端与设计、黑客与画家 | 桂帅，Web &amp; Mobile Lover，Android Engineer, 这里是 @GS桂帅 的个人博客，与你一起发现更大的世界。</description>
     <link>https://shadowera.github.io/</link>
     <atom:link href="https://shadowera.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Mon, 17 Oct 2016 16:35:38 +0800</pubDate>
-    <lastBuildDate>Mon, 17 Oct 2016 16:35:38 +0800</lastBuildDate>
+    <pubDate>Mon, 17 Oct 2016 16:38:12 +0800</pubDate>
+    <lastBuildDate>Mon, 17 Oct 2016 16:38:12 +0800</lastBuildDate>
     <generator>Jekyll v3.0.1</generator>
+    
+      <item>
+        <title>Android Tansitions（过渡动画）（part 1）</title>
+        <description>&lt;h2 id=&quot;transitions-part-1&quot;&gt;开始使用 Transitions（过渡动画） (part 1)&lt;/h2&gt;
+
+&lt;blockquote&gt;
+
+  &lt;ul&gt;
+    &lt;li&gt;原文链接 : &lt;a href=&quot;http://www.androiddesignpatterns.com/2014/12/activity-fragment-transitions-in-android-lollipop-part1.html&quot;&gt;Getting Started with Activity &amp;amp; Fragment Transitions (part 1)&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;作者 : &lt;a href=&quot;https://plus.google.com/+AlexLockwood&quot;&gt;Alex Lockwood&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;译者 : &lt;a href=&quot;https://github.com/tiiime&quot;&gt;tiiime&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;校对者: &lt;a href=&quot;https://github.com/chaossss&quot;&gt;chaossss&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;状态 :  校对完成&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;##首先&lt;br /&gt;
+这篇文章主要介绍 Android 5.0 新加入的 Transition (过渡动画) API，这是这个系列的第一篇文章。主要介绍下面几个话题:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Part 1: &lt;a href=&quot;http://www.androiddesignpatterns.com/2014/12/activity-fragment-transitions-in-android-lollipop-part1.html&quot;&gt;在 Activity 和 Fragment 中使用 Transition &lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Part 2: &lt;a href=&quot;http://www.androiddesignpatterns.com/2014/12/activity-fragment-content-transitions-in-depth-part2.html&quot;&gt;深入理解 Transition&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Part 3a: &lt;a href=&quot;http://www.androiddesignpatterns.com/2015/01/activity-fragment-shared-element-transitions-in-depth-part3a.html&quot;&gt;深入理解共享元素的 Transition&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Part 3b:  &lt;a href=&quot;http://www.androiddesignpatterns.com/2015/03/activity-postponed-shared-element-transitions-part3b.html&quot;&gt;延迟共享元素的 Transition&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Part 3c: 共享元素回调实践 (coming soon!)&lt;/li&gt;
+  &lt;li&gt;Part 4:  Activity &amp;amp; Fragment 过渡动画示例(coming soon!)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;今天这篇文章是 Transition 的概述，同时也象征着这个专栏的开始，希望大家喜欢啦。&lt;/p&gt;
+
+&lt;p&gt;#先说下什么是 Transition(过渡动画).&lt;br /&gt;
+Lollipop 中 Activity 和 Fragment 的过渡动画是基于 Android 一个叫作 Transition 的新特性实现的。&lt;br /&gt;
+初次引入这个特性是在 KitKat 中，Transition 框架提供了一个方便的 API 来构建应用中不同 UI 状态切换时的动画。&lt;br /&gt;
+这个框架始终围绕两个关键概念:场景和过渡。&lt;br /&gt;
+&lt;strong&gt;场景&lt;/strong&gt; 描述应用中 UI 的状态，&lt;a href=&quot;https://developer.android.com/reference/android/transition/Transition.html&quot;&gt;&lt;strong&gt;过渡&lt;/strong&gt;&lt;/a&gt; 确定两个场景转换之间的过渡动画。&lt;/p&gt;
+
+&lt;p&gt;当场景转换，Transition 的主要职责是：&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;捕获每一个 View 的起始和结束状态&lt;/li&gt;
+  &lt;li&gt;根据这些数据来创建从一个场景到另一个场景间的过渡动画。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;下面是一个简单示例，当用户点击，我们需要 Activity 的 View 视图产生消失和出现的效果。使用 Transition ，实现这个需求只要几行代码，代码如下：&lt;a id=&quot;1&quot; href=&quot;#b1&quot;&gt;(1)&lt;/a&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;ExampleActivity&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;extends&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Activity&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;implements&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;View&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;OnClickListener&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ViewGroup&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;mRootView&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;View&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;mRedBox&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;mGreenBox&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;mBlueBox&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;mBlackBox&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+
+    &lt;span class=&quot;nd&quot;&gt;@Override&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;protected&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;onCreate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Bundle&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;savedInstanceState&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;kd&quot;&gt;super&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;onCreate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;savedInstanceState&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;setContentView&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;R&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;layout&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;activity_main&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+
+        &lt;span class=&quot;n&quot;&gt;mRootView&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ViewGroup&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;findViewById&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;R&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;layout_root_view&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;mRootView&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;setOnClickListener&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+
+        &lt;span class=&quot;n&quot;&gt;mRedBox&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;findViewById&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;R&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;red_box&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;mGreenBox&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;findViewById&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;R&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;green_box&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;mBlueBox&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;findViewById&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;R&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;blue_box&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;mBlackBox&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;findViewById&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;R&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;black_box&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;nd&quot;&gt;@Override&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;onClick&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;View&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;v&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;TransitionManager&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;beginDelayedTransition&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mRootView&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Fade&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;());&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;toggleVisibility&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mRedBox&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;mGreenBox&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;mBlueBox&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;mBlackBox&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;toggleVisibility&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;View&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;...&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;views&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;View&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;view&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;views&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;kt&quot;&gt;boolean&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;isVisible&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;view&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getVisibility&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;View&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;VISIBLE&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;view&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;setVisibility&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;isVisible&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;?&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;View&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;INVISIBLE&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;View&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;VISIBLE&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;为了更好地理解底层中发生了什么，我们一步一步地分析下这段代码，首先假设屏幕上的所有的 View 都是&lt;strong&gt;可见&lt;/strong&gt;的:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;首先，点击按钮后调用了 &lt;a href=&quot;https://developer.android.com/reference/android/transition/TransitionManager.html#beginDelayedTransition(android.view.ViewGroup,%20android.transition.Transition)&quot;&gt;beginDelayedTransition()&lt;/a&gt;，&lt;br /&gt;
+将根场景和&lt;a href=&quot;https://developer.android.com/reference/android/transition/Fade.html&quot;&gt;Fade&lt;/a&gt; Transition对象（淡入/淡出过渡效果）作为参数传递出去。框架立即对场景中所有 View 调用 Transitions 的 &lt;a href=&quot;https://developer.android.com/reference/android/transition/Transition.html#captureStartValues(android.transition.TransitionValues)&quot;&gt;captureStartValues()&lt;/a&gt; 方法，同时， Transitions 将记录每个 View 的可见性。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;调用结束后，开发者将场景中所有 View 设置为&lt;strong&gt;不可见&lt;/strong&gt;的。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;在下一个画面，框架对场景中所有 View(近期更新的) 调用 Transitions 的&lt;a href=&quot;https://developer.android.com/reference/android/transition/Transition.html#captureEndValues(android.transition.TransitionValues)&quot;&gt;captureEndValues()&lt;/a&gt;&lt;br /&gt;
+方法， Transitions 记录可见性。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;框架调用 Transitions 的 &lt;a href=&quot;https://developer.android.com/reference/android/transition/Transition.html#createAnimator(android.view.ViewGroup,%20android.transition.TransitionValues,%20android.transition.TransitionValues)&quot;&gt;createAnimator()&lt;/a&gt; 方法。Transition 分析每一个 View 的起始/结束状态，注意到 View 的可见性发生了变化。之后 &lt;strong&gt;Fade&lt;/strong&gt; 对象利用这些信息创建了一个&lt;strong&gt;AnimatorSet&lt;/strong&gt; 对象，并将其返回到框架中，进而将每个 View 的 &lt;strong&gt;alpha&lt;/strong&gt; 值渐变到 &lt;strong&gt;0f&lt;/strong&gt;。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;框架运行返回的&lt;strong&gt;动画&lt;/strong&gt;,让所有 View 从屏幕中淡出。&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;这个例子强调了 Transition 框架的两个优点：第一，&lt;strong&gt;Transition&lt;/strong&gt; 将开发人员所需要的&lt;strong&gt;动画&lt;/strong&gt;概念抽象，减少了 Activity 和 Fragment 内的代码复用，使得我们只要设置好 View 的 起始 和 结束 时的状态，就能通过 Transition 自动创建动画。第二，只要更换 &lt;strong&gt;Transition&lt;/strong&gt; 对象就可以修改两个场景间的动画。&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://www.androiddesignpatterns.com/assets/videos/posts/2014/12/04/trivial-opt.mp4&quot;&gt; 示例 &lt;strong&gt;Video 1.1&lt;/strong&gt;&lt;/a&gt;,只要少量代码就可以创建复杂的动画效果。&lt;br /&gt;
+后续文章会介绍如何做到。&lt;/p&gt;
+
+&lt;h1 id=&quot;lollipop--activity--fragment-transitions&quot;&gt;Lollipop 中的 Activity &amp;amp; Fragment Transitions&lt;/h1&gt;
+&lt;p&gt;在 Android 5.0 中， 切换 &lt;strong&gt;Activitys&lt;/strong&gt; 或者 &lt;strong&gt;Fragments&lt;/strong&gt; 时可以使用 &lt;strong&gt;Transitions&lt;/strong&gt; 来构建精致的过场动画。虽然在之前的版本中已经引入 Activity 和 Fragment 的切换动画(通过 &lt;a href=&quot;http://developer.android.com/reference/android/app/Activity.html#overridePendingTransition(int,%20int)&quot;&gt;Activity#overridePendingTransition()&lt;/a&gt; 和 &lt;a href=&quot;http://developer.android.com/reference/android/app/FragmentTransaction.html#setCustomAnimations(int,%20int,%20int,%20int)&quot;&gt;FragmentTransaction#setCustomAnimation()&lt;/a&gt; 方法实现)，但是动画的对象只能是&lt;strong&gt;Activity/Fragment&lt;/strong&gt;整体。而新的 API 将这个特性延伸，使我们可以为每个 View 单独设置动画，甚至可以在两个独立的 Activity/Fragment 容器内共享某些 View的动画。&lt;/p&gt;
+
+&lt;p&gt;接下来介绍些术语。注意，虽然下面是以 Activity 为例，但是在 Fragment 中这些术语也同样有效:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;假设 &lt;strong&gt;A&lt;/strong&gt; 和 &lt;strong&gt;B&lt;/strong&gt; 是两个 Activity，通过 &lt;strong&gt;A&lt;/strong&gt; 来启动 &lt;strong&gt;B&lt;/strong&gt;。&lt;br /&gt;
+&lt;strong&gt;A&lt;/strong&gt; 叫做 “调用Activity”(调用 &lt;code class=&quot;highlighter-rouge&quot;&gt;startActivity()&lt;/code&gt; 的那个)&lt;br /&gt;
+&lt;strong&gt;B&lt;/strong&gt; 就是 “被调用Activity”&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Activity transition API 是围绕退出，进入，返回还有重入过渡动画效果构建的。根据之前的定义我们可以这样描述它们:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Activity &lt;strong&gt;A&lt;/strong&gt; 的 退出 Transition 确定 &lt;strong&gt;A&lt;/strong&gt; 启动 &lt;strong&gt;B&lt;/strong&gt; 时 &lt;strong&gt;A&lt;/strong&gt; 中 View 的动画&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Activity &lt;strong&gt;B&lt;/strong&gt; 的 进入 Transition 确定 &lt;strong&gt;A&lt;/strong&gt; 启动 &lt;strong&gt;B&lt;/strong&gt; 时 &lt;strong&gt;B&lt;/strong&gt; 中 View 的动画&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Activity &lt;strong&gt;B&lt;/strong&gt; 的 返回 Transition 确定 &lt;strong&gt;B&lt;/strong&gt; 返回 &lt;strong&gt;A&lt;/strong&gt; 时 &lt;strong&gt;B&lt;/strong&gt; 中 View 的动画&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Activity &lt;strong&gt;A&lt;/strong&gt; 的 重入 Transition 确定 &lt;strong&gt;B&lt;/strong&gt; 返回 &lt;strong&gt;A&lt;/strong&gt; 时 &lt;strong&gt;A&lt;/strong&gt; 中 View 的动画&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;最后，Transition 框架提供了 &lt;strong&gt;Content(内容)&lt;/strong&gt;和&lt;strong&gt;共享元素(Shared Element)&lt;/strong&gt; 两种类型的Activity过渡动画，每个都可以让我们以独特的方式自定义 Activity 切换间的动画&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;Content(内容) Transition&lt;/strong&gt; 确定了非共享元素如何 进入/退出 Activity 场景&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;共享元素(Shared Element) Transition&lt;/strong&gt; 确定了两个Activity 共享 View (也被叫做主角视图)的动画效果。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://www.androiddesignpatterns.com/assets/videos/posts/2014/12/04/news-opt.mp4&quot;&gt;Video 1.2&lt;/a&gt;这段视频很好的解释了 Content Transition 和 共享元素 Transition，我猜想它使用了下面的过渡动画。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;A&lt;/strong&gt;(调用Activity) 的&lt;strong&gt;退出&lt;/strong&gt;和&lt;strong&gt;重新进入&lt;/strong&gt; Content Transition 都是 &lt;strong&gt;null&lt;/strong&gt;。因为用户退出和重新进入时 Activity A中的非共享视图没有动画效果。&lt;a id=&quot;2&quot; href=&quot;#b2&quot;&gt;(2)&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;B&lt;/strong&gt;(被调用Activity) 的&lt;strong&gt;进入&lt;/strong&gt; Content Transition 使用了一个自定义的 Slide Transition 将list item从底部移至屏幕中。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Activity &lt;strong&gt;B&lt;/strong&gt; 的&lt;strong&gt;返回&lt;/strong&gt; Content Transition是一个 &lt;strong&gt;TransitionSet&lt;/strong&gt;，同时进行两个子 Transition:一个Slide (Gravity.TOP) Transition&lt;br /&gt;
+针对Activity上半部分的View，一个Slide (Gravity.BOTTOM) Transition 针对Activity 下半部分View。当用户点击按钮返回Activity A，Activity呈现一种断成两半的感觉。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;共享元素的进入和退出 Transition 都是 &lt;strong&gt;ChangeImageTransform&lt;/strong&gt;，使ImageView过渡动画可以在两个Activity间无缝衔接。&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;你可能也注意到了在共享元素 Transition 下还有一个圆形的过渡动画(circular reveal)，我们会在将来的章节中介绍它是如何实现的。现在，我们来继续了解 Activity 和 Fragment transition APIs&lt;/p&gt;
+
+&lt;p&gt;#介绍Activity Transition API&lt;/p&gt;
+
+&lt;p&gt;使用 Lollipop 的 APIs 创建一个 Activity 过渡动画 非常简单，下面的总结是实现一个过渡动画的必要步骤。在接下来的文章中我们还会介绍很多提升水平的用例，不过现在先让我们来入个门:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;在你的A(调用Activity)和B(被调用Activity)的 &lt;code class=&quot;highlighter-rouge&quot;&gt;.java&lt;/code&gt; 文件或者&lt;br /&gt;
+&lt;code class=&quot;highlighter-rouge&quot;&gt;xml&lt;/code&gt;&lt;a id=&quot;3&quot; href=&quot;#b3&quot;&gt;(3)&lt;/a&gt;布局中请求启用&lt;br /&gt;
+&lt;a href=&quot;http://developer.android.com/reference/android/view/Window.html#FEATURE_ACTIVITY_TRANSITIONS&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Window.FEATURE_ACTIVITY_TRANSITIONS&lt;/code&gt;&lt;/a&gt; 窗口特性，&lt;br /&gt;
+使用Material主题的应用默认已开启。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;为A和B单独设置 &lt;a href=&quot;https://developer.android.com/reference/android/view/Window.html#setExitTransition(android.transition.Transition)&quot;&gt;&lt;strong&gt;exit&lt;/strong&gt;&lt;/a&gt; 和 &lt;a href=&quot;https://developer.android.com/reference/android/view/Window.html#setEnterTransition(android.transition.Transition)&quot;&gt;&lt;strong&gt;enter&lt;/strong&gt;&lt;/a&gt; Content Transition 。&lt;br /&gt;
+Material主题的 &lt;a href=&quot;https://developer.android.com/reference/android/view/Window.html#setExitTransition(android.transition.Transition)&quot;&gt;&lt;strong&gt;exit&lt;/strong&gt;&lt;/a&gt; 和 &lt;a href=&quot;https://developer.android.com/reference/android/view/Window.html#setEnterTransition(android.transition.Transition)&quot;&gt;&lt;strong&gt;enter&lt;/strong&gt;&lt;/a&gt; Content Transition 默认分别是&lt;br /&gt;
+&lt;code class=&quot;highlighter-rouge&quot;&gt;null&lt;/code&gt;和&lt;code class=&quot;highlighter-rouge&quot;&gt;Fade&lt;/code&gt;。如果没有明确定义 &lt;a href=&quot;https://developer.android.com/reference/android/view/Window.html#setSharedElementReenterTransition(android.transition.Transition)&quot;&gt;&lt;strong&gt;reenter&lt;/strong&gt;&lt;/a&gt; 或 &lt;a href=&quot;https://developer.android.com/reference/android/view/Window.html#setReturnTransition(android.transition.Transition)&quot;&gt;&lt;strong&gt;return&lt;/strong&gt;&lt;/a&gt;&lt;br /&gt;
+Content Transition 将会使用 Activity 的 &lt;a href=&quot;https://developer.android.com/reference/android/view/Window.html#setExitTransition(android.transition.Transition)&quot;&gt;&lt;strong&gt;exit&lt;/strong&gt;&lt;/a&gt; 和 &lt;a href=&quot;https://developer.android.com/reference/android/view/Window.html#setEnterTransition(android.transition.Transition)&quot;&gt;&lt;strong&gt;enter&lt;/strong&gt;&lt;/a&gt;&lt;br /&gt;
+ Transition 来代替。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;为 A 和 B 设置 &lt;a href=&quot;https://developer.android.com/reference/android/view/Window.html#setExitTransition(android.transition.Transition)&quot;&gt;&lt;strong&gt;exit&lt;/strong&gt;&lt;/a&gt; 和 &lt;a href=&quot;https://developer.android.com/reference/android/view/Window.html#setEnterTransition(android.transition.Transition)&quot;&gt;&lt;strong&gt;enter&lt;/strong&gt;&lt;/a&gt; 共享元素 Transition。&lt;br /&gt;
+Material主题中共享元素默认设置 &lt;a href=&quot;https://github.com/android/platform_frameworks_base/blob/lollipop-release/core/res/res/transition/move.xml&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;@android:transition/move&lt;/code&gt;&lt;/a&gt; 作为&lt;br /&gt;
+&lt;a href=&quot;https://developer.android.com/reference/android/view/Window.html#setExitTransition(android.transition.Transition)&quot;&gt;&lt;strong&gt;exit&lt;/strong&gt;&lt;/a&gt; 和 &lt;a href=&quot;https://developer.android.com/reference/android/view/Window.html#setEnterTransition(android.transition.Transition)&quot;&gt;&lt;strong&gt;enter&lt;/strong&gt;&lt;/a&gt; 过渡动画。如果没有明确定义&lt;br /&gt;
+&lt;a href=&quot;https://developer.android.com/reference/android/view/Window.html#setSharedElementReenterTransition(android.transition.Transition)&quot;&gt;&lt;strong&gt;reenter&lt;/strong&gt;&lt;/a&gt; 和 &lt;a href=&quot;https://developer.android.com/reference/android/view/Window.html#setReturnTransition(android.transition.Transition)&quot;&gt;&lt;strong&gt;return&lt;/strong&gt;&lt;/a&gt; 的过渡动画将会使用 Activity 的&lt;br /&gt;
+&lt;a href=&quot;https://developer.android.com/reference/android/view/Window.html#setExitTransition(android.transition.Transition)&quot;&gt;&lt;strong&gt;exit&lt;/strong&gt;&lt;/a&gt; 和 &lt;a href=&quot;https://developer.android.com/reference/android/view/Window.html#setEnterTransition(android.transition.Transition)&quot;&gt;&lt;strong&gt;enter&lt;/strong&gt;&lt;/a&gt; 过渡动画作为替代。&lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;启动一个包含 Content Transition 和 共享元素 Transition 的 Activity 时要调用&lt;br /&gt;
+&lt;code class=&quot;highlighter-rouge&quot;&gt;startActivity(Context, Bundle) &lt;/code&gt;方法，其中第二参数 Bundle 通过下面这段代码获得：&lt;/p&gt;
+
+    &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;java
+  ActivityOptions.makeSceneTransitionAnimation(activity, pairs).toBundle();
+ &lt;/code&gt;&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;pairs&lt;/strong&gt; 是一个 &lt;strong&gt;Pair&amp;lt; View, String &amp;gt;&lt;/strong&gt; 数组，记录Activity间&lt;a id=&quot;4&quot; href=&quot;#b4&quot;&gt;(4)&lt;/a&gt; 共享元素的View 和 相对应的特征字符串。别忘了在&lt;a href=&quot;https://developer.android.com/reference/android/view/View.html#setTransitionName(java.lang.String)&quot;&gt;程序&lt;/a&gt;中或 &lt;a href=&quot;https://developer.android.com/reference/android/view/View.html#attr_android:transitionName&quot;&gt;xml&lt;/a&gt; 文件里给共享元素设置不重复的名称，否则过渡动画不会正常运行。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;通过启动程序返回一个 Transition，调用 &lt;strong&gt;finishAfterTransition()&lt;/strong&gt; 代替 &lt;strong&gt;finish()&lt;/strong&gt;。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Material主题应用默认会在他们的&lt;strong&gt;退出/重入&lt;/strong&gt; Transition 完成前一点点启动&lt;strong&gt;进入/返回&lt;/strong&gt; Content Transition，这样会在两个动画间产生一些重叠，让过渡动画更好看。如果你想关闭这个特性可以调用 &lt;a href=&quot;http://developer.android.com/reference/android/view/Window.html#setAllowEnterTransitionOverlap(boolean)&quot;&gt; setWindowAllowEnterTransitionOverlap()&lt;/a&gt; 和 &lt;a href=&quot;http://developer.android.com/reference/android/view/Window.html#setAllowReturnTransitionOverlap(boolean)&quot;&gt;setWindowAllowReturnTransitionOverlap()&lt;/a&gt; 方法或者在xml文件里给定适当的属性&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;##Fragment 的 Transition API&lt;/p&gt;
+
+&lt;p&gt;如果你使用 Fragment 的 transition API，大部分 API 相似，但是会有一些小的不同:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;Content 的&lt;a href=&quot;https://developer.android.com/reference/android/view/Window.html#setExitTransition(android.transition.Transition)&quot;&gt;退出&lt;/a&gt;，&lt;a href=&quot;https://developer.android.com/reference/android/view/Window.html#setEnterTransition(android.transition.Transition)&quot;&gt;进入&lt;/a&gt;，&lt;a href=&quot;https://developer.android.com/reference/android/view/Window.html#setSharedElementReenterTransition(android.transition.Transition)&quot;&gt;重入&lt;/a&gt;和&lt;a href=&quot;https://developer.android.com/reference/android/view/Window.html#setReturnTransition(android.transition.Transition)&quot;&gt;返回&lt;/a&gt; 过渡动画应该在 Fragment 的&lt;code class=&quot;highlighter-rouge&quot;&gt;.java&lt;/code&gt;文件中调用对应的方法或者在 xml 属性声明里设置。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;共享元素 的&lt;a href=&quot;https://developer.android.com/reference/android/view/Window.html#setEnterTransition(android.transition.Transition)&quot;&gt;进入&lt;/a&gt;和 &lt;a href=&quot;https://developer.android.com/reference/android/view/Window.html#setReturnTransition(android.transition.Transition)&quot;&gt;返回&lt;/a&gt; 过渡动画应该在 Fragment 的&lt;code class=&quot;highlighter-rouge&quot;&gt;.java&lt;/code&gt;文件中调用对应的方法或者在 xml 属性声明里设置。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;鉴于Activity的 Transition 是通过调用 &lt;strong&gt;startActivity()&lt;/strong&gt; 和 &lt;strong&gt;finishAfterTransition()&lt;/strong&gt; 直接启动的,Fragment 的过渡是在 Fragment&lt;br /&gt;
+被add, remove, attach, detach, show,或 hidden 后由 FragmentTransaction 自动启动。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;共享元素应该在transaction(事务)提交前调用&lt;a href=&quot;https://developer.android.com/reference/android/app/FragmentTransaction.html#addSharedElement(android.view.View,%20java.lang.String)&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;addSharedElement(View, String)&lt;/code&gt;&lt;/a&gt;声明为 &lt;strong&gt;FragmentTransaction&lt;/strong&gt; 的一部分。&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;##结语&lt;/p&gt;
+
+&lt;p&gt;这篇文章里我们只是简单的介绍了 Activitiy 和 Fragment transition API，但是在接下来的文章你会发现扎实的基础给你带来的好处，尤其是在讲到&lt;strong&gt;自定义过渡动画&lt;/strong&gt;时。后面我们会非常深入的讲解 Content Transition 和 共享元素 Transition，让你更加了解 Activity 和 Fragment 背后的工作。&lt;/p&gt;
+
+&lt;p&gt;希望你喜欢我的文章，感谢观看～&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;如果你想尝试这个例子，这里有&lt;a href=&quot;https://gist.github.com/alexjlockwood/a96781b876138c37e88e&quot;&gt;xml代码&lt;/a&gt; &lt;a id=&quot;b1&quot; href=&quot;#1&quot;&gt;↩&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;第一眼看上去可能感觉是Activity A fade in/out 屏幕, 事实上是Activity B 在 Activity A 的上面渐变. A 中的 View 事实上是没有动画的. 你可以在被调用 Activity 的 Window 中使用 &lt;a href=&quot;http://developer.android.com/reference/android/view/Window.html#setTransitionBackgroundFadeDuration(long)&quot;&gt;setTransitionBackgroundFadeDuration()&lt;/a&gt; 方法调节背景渐变持续时间。 &lt;a id=&quot;b2&quot; href=&quot;#2&quot;&gt;↩&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;了解更多关于 &lt;strong&gt;FEATURE_ACTIVITY_TRANSITIONS&lt;/strong&gt; 和 &lt;strong&gt;FEATURE_CONTENT_TRANSITIONS&lt;/strong&gt; 窗口特性的不同可以看&lt;a href=&quot;http://stackoverflow.com/questions/28975840/feature-activity-transitions-vs-feature-content-transitions&quot;&gt;这里StackOverflow Post&lt;/a&gt;&lt;a id=&quot;b3&quot; href=&quot;#3&quot;&gt;↩&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;启动一个包含Content Transition 而不是共享元素 Transition 的Activity,可以这样创建&lt;strong&gt;Bundle&lt;/strong&gt;&lt;/p&gt;
+
+    &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;java
+ ActivityOptions.makeSceneTransitionAnimation(activity).toBundle()
+&lt;/code&gt;&lt;br /&gt;
+如果想完全禁用Content Transition 和 共享元素 Transition 可以将 Bundle 设为 &lt;strong&gt;null&lt;/strong&gt;. &lt;a id=&quot;b4&quot; href=&quot;#4&quot;&gt;↩&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+</description>
+        <pubDate>Fri, 14 Oct 2016 20:00:00 +0800</pubDate>
+        <link>https://shadowera.github.io/2016/10/14/transitions-part1/</link>
+        <guid isPermaLink="true">https://shadowera.github.io/2016/10/14/transitions-part1/</guid>
+        
+        <category>生活</category>
+        
+        <category>Android</category>
+        
+        <category>翻译</category>
+        
+        <category>转载</category>
+        
+        
+      </item>
     
       <item>
         <title>Hello World</title>

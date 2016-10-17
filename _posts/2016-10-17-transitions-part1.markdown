@@ -1,16 +1,14 @@
 ---
 layout:     post
-title:      "Android Tansitions（过渡动画）（part 1）"
+title:      "Android Tansitions (part 1)"
 subtitle:   "Getting Started with Activity & Fragment Transitions"
-date:       2016-10-14 12:00:00
+date:       2016-10-17 12:00:00
 author:     "shadowera"
-header-img: "img/about-bg.jpg"
+header-img: "img/android-robot.jpg"
 catalog: true
 tags:
-    - 生活
     - Android
     - 翻译
-    - 转载
 ---
 开始使用 Transitions（过渡动画） (part 1)
 ---

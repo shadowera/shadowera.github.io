@@ -1,9 +1,4 @@
----
-layout: page
-title: "About"
-description: "Hey, this is Gs."
-header-img: "img/about-bg.jpg"
----
+--- layout: page title: "About" description: "Hey, this is Gs." header-img: "img/about-bg.jpg" ---
 
 <!-- Language Selector -->
 <!--<select class="sel-lang" onchange= "onLanChange(this.options[this.options.selectedIndex].value)">
@@ -14,11 +9,13 @@ header-img: "img/about-bg.jpg"
 <!-- Chinese Version -->
 <div class="zh post-container">
 
-    <!--copied from markdown -->
-    <blockquote><p>写写代码，做做设计，看看产品。<br>
-    世界那么大，我想去看看。</p></blockquote>
+	<!--copied from markdown -->
+	<blockquote>
+		<p>写写代码，做做设计，看看产品。<br> 世界那么大，我想去看看。
+		</p>
+	</blockquote>
 
-    <p>Hey，我是<strong>桂帅</strong>，android 程序员 <a href="http://www.kuyun.com/">@酷云互动</a></p>
+	<p>Hey，我是<strong>桂帅</strong>，android 程序员 <a href="http://www.kuyun.com/">@酷云互动</a></p>
 </div>
 
 <!-- English Version -->
@@ -79,22 +76,11 @@ header-img: "img/about-bg.jpg"
 
     // init
     _render();
-</script>
-
-
-
-{% if site.duoshuo_username %}
+</script> {% if site.duoshuo_username %}
 <!-- 多说评论框 start -->
 <div class="comment">
-    <div class="ds-thread"
-    {% if site.duoshuo_username == "GSblog" %}
-        data-thread-id="1187623191091085319"
-    {% else %}
-        data-thread-key="{{site.duoshuo_username}}/about"
-    {% endif %}
-
-    data-title="{{page.title}}"
-    data-url="{{site.url}}/about/"></div>
+	<div class="ds-thread" {% if site.duoshuo_username=="GSblog" %} data-thread-id="1187623191091085319" {% else %} data-thread-key="{{site.duoshuo_username}}/about"
+		{% endif %} data-title="{{page.title}}" data-url="{{site.url}}/about/"></div>
 </div>
 <!-- 多说评论框 end -->
 
@@ -115,15 +101,12 @@ header-img: "img/about-bg.jpg"
     })();
 </script>
 <!-- 多说公共JS代码 end -->
-{% endif %}
-
-
-{% if site.disqus_username %}
+{% endif %} {% if site.disqus_username %}
 <!-- disqus 评论框 start -->
 <div class="comment">
-    <div id="disqus_thread" class="disqus-thread">
+	<div id="disqus_thread" class="disqus-thread">
 
-    </div>
+	</div>
 </div>
 <!-- disqus 评论框 end -->
 

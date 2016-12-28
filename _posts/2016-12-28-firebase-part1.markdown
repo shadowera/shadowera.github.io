@@ -11,20 +11,20 @@ tags:
     - Firebase
 ---
 ##  首先
-    当app发展到本地以外，就不得不牵扯到服务器了，当然这对于大公司来说并不是什么大问题，服务器有后台人员维护，网站有前端
-    人员负责，移动端也有对应人员搞定。但是服务器就一个（或一组，一间etc），其中的数据要联动到web，Android，iOS等不同平台上，
-    可能就会有不同的差异，开发工具包自然是一点，从服务器拉取的方式和传送数据的格式可能也会有不同。 
-    对于小型开发团队或者独立开发者来说就更痛苦了，在开发应用的同时还需要抽身去创建和维护服务器，即使现在已经有很多的云服务供
-    应商，但是这点还是避免不了。 
+当app发展到本地以外，就不得不牵扯到服务器了，当然这对于大公司来说并不是什么大问题，服务器有后台人员维护，网站有前端
+人员负责，移动端也有对应人员搞定。但是服务器就一个（或一组，一间etc），其中的数据要联动到web，Android，iOS等不同平台上，
+可能就会有不同的差异，开发工具包自然是一点，从服务器拉取的方式和传送数据的格式可能也会有不同。 
+对于小型开发团队或者独立开发者来说就更痛苦了，在开发应用的同时还需要抽身去创建和维护服务器，即使现在已经有很多的云服务供
+应商，但是这点还是避免不了。 
 
-    Firebase作为提供实时后端数据库的公司，它可以帮助快速地开发网页端和移动端的应用，自从Google收购了之后，在今年的IO大会上
-    大放异彩，它在使原来的服务更加方便之外，还加入了Google的各种新元素，包括远程配置，云上调试，崩溃报告，动态链接等等，基本上所有的
-    功能都只要几行代码就能完成，而惊喜的是，这些工具都是跨平台的，这意味着代码的移植变得很简单。
+Firebase作为提供实时后端数据库的公司，它可以帮助快速地开发网页端和移动端的应用，自从Google收购了之后，在今年的IO大会上
+大放异彩，它在使原来的服务更加方便之外，还加入了Google的各种新元素，包括远程配置，云上调试，崩溃报告，动态链接等等，基本上所有的
+功能都只要几行代码就能完成，而惊喜的是，这些工具都是跨平台的，这意味着代码的移植变得很简单。
  
-    另外Firebase Cloud Messaging也是Google Cloud Messaging的扩展版，随着Google对中国的兴趣越来越大，将来说不定还
-    是会回归的，再加上Android N中加强版的Doze mode强调了GCM的重要性，因此Firebase在未来Android应用的作用将不可小觑。
+另外Firebase Cloud Messaging也是Google Cloud Messaging的扩展版，随着Google对中国的兴趣越来越大，将来说不定还
+是会回归的，再加上Android N中加强版的Doze mode强调了GCM的重要性，因此Firebase在未来Android应用的作用将不可小觑。
 
-    下面几篇博客分别来介绍firebase的功能及使用。
+下面几篇博客分别来介绍firebase的功能及使用。
 
 ## 身份认证 Authentication
 > 用户使用app的第一步，就是身份认证，包括注册，登陆还有登出功能。Firebase的Auth模块就是对应身份认证这一点的。Firebase的登陆方式除了基本的邮箱+密码方式，还有第三方账号的登陆方式，包括Google，Facebook，twitter和Gihub，除此之外，Firebase也允许开发者自定义登陆方式 在启用某种登录方式时，需要在Firebase控制台的Auth模块中，在”登录方法“标签页下进行对应的启用
@@ -38,8 +38,8 @@ firebase目前支持的登录方式有：
 * 自定义登录
 
 ### 邮箱+密码
-    首先先来看最基本的邮件+密码方式。 
-    为了使用身份认证功能，需要为项目添加对firebase-auth库的依赖：
+首先先来看最基本的邮件+密码方式。 
+为了使用身份认证功能，需要为项目添加对firebase-auth库的依赖：
 ```
 dependencies {
     // ...
@@ -118,7 +118,7 @@ Task updateEmail(String)|	更新email
 
 #### 登录
 ```java
-mAuth.signInWithEmailAndPassword(email, password)
+    mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -136,7 +136,7 @@ mAuth.signInWithEmailAndPassword(email, password)
 ```
 ####  注销
 ```java
- FirebaseAuth.getInstance().signOut();
+FirebaseAuth.getInstance().signOut();
 ```
 
 ### Google账号登录

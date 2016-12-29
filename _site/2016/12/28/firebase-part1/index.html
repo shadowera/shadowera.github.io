@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="桂帅，Web & Mobile Lover，Android Engineer, 这里是 @GS桂帅 的个人博客，与你一起发现更大的世界。">
+    <meta name="keywords"  content="桂帅, GS桂帅, GS， 桂帅的博客, GS Blog, shadowera, 个人网站, 互联网, android, 设计, 洪泽金丹, kerry">
+    <meta name="theme-color" content="#000000">
+    
+    <title>Firebase-part1-Authentication - 桂帅的博客 | Gs Blog</title>
+
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="/pwa/manifest.json">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://shadowera.github.io/2016/12/28/firebase-part1/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Gs Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/she/">She</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/tags/">Tags</a>
+                    </li>
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    var __HuxNav__ = {
+        close: function(){
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        },
+        open: function(){
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+
+    // Bind Event
+    $toggle.addEventListener('click', function(e){
+        if ($navbar.className.indexOf('in') > 0) {
+            __HuxNav__.close()
+        }else{
+            __HuxNav__.open()
+        }
+    })
+
+    /**
+     * Since Fastclick is used to delegate 'touchstart' globally
+     * to hack 300ms delay in iOS by performing a fake 'click',
+     * Using 'e.stopPropagation' to stop 'touchstart' event from 
+     * $toggle/$collapse will break global delegation.
+     * 
+     * Instead, we use a 'e.target' filter to prevent handler
+     * added to document close HuxNav.  
+     *
+     * Also, we use 'click' instead of 'touchstart' as compromise
+     */
+    document.addEventListener('click', function(e){
+        if(e.target == $toggle) return;
+        if(e.target.className == 'icon-bar') return;
+        __HuxNav__.close();
+    })
+</script>
+
+
+    <!-- Image to hack wechat -->
+<!-- <img src="/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="/img/about-bg.jpg" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        position: relative;
+        background-image: url('/img/about-bg.jpg')
+    }
+
+    
+</style>
+<header class="intro-header" >
+    <div class="header-mask"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#android" title="android">android</a>
+                        
+                        <a class="tag" href="/tags/#Firebase" title="Firebase">Firebase</a>
+                        
+                    </div>
+                    <h1>Firebase-part1-Authentication</h1>
+                    
+                    
+                    <h2 class="subheading"> A new way to build apps</h2>
+                    
+                    <span class="meta">Posted by shadowera on December 28, 2016</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+				<h2 id="section">首先</h2>
+<p>当app发展到本地以外，就不得不牵扯到服务器了，当然这对于大公司来说并不是什么大问题，服务器有后台人员维护，网站有前端<br />
+人员负责，移动端也有对应人员搞定。但是服务器就一个（或一组，一间etc），其中的数据要联动到web，Android，iOS等不同平台上，<br />
+可能就会有不同的差异，开发工具包自然是一点，从服务器拉取的方式和传送数据的格式可能也会有不同。 <br />
+对于小型开发团队或者独立开发者来说就更痛苦了，在开发应用的同时还需要抽身去创建和维护服务器，即使现在已经有很多的云服务供<br />
+应商，但是这点还是避免不了。</p>
+
+<p>Firebase作为提供实时后端数据库的公司，它可以帮助快速地开发网页端和移动端的应用，自从Google收购了之后，在今年的IO大会上<br />
+大放异彩，它在使原来的服务更加方便之外，还加入了Google的各种新元素，包括远程配置，云上调试，崩溃报告，动态链接等等，基本上所有的<br />
+功能都只要几行代码就能完成，而惊喜的是，这些工具都是跨平台的，这意味着代码的移植变得很简单。</p>
+
+<p>另外Firebase Cloud Messaging也是Google Cloud Messaging的扩展版，随着Google对中国的兴趣越来越大，将来说不定还<br />
+是会回归的，再加上Android N中加强版的Doze mode强调了GCM的重要性，因此Firebase在未来Android应用的作用将不可小觑。</p>
+
+<p>下面几篇博客分别来介绍firebase的功能及使用。</p>
+
+<h2 id="authentication">身份认证 Authentication</h2>
+
+<blockquote>
+  <p>用户使用app的第一步，就是身份认证，包括注册，登陆还有登出功能。Firebase的Auth模块就是对应身份认证这一点的。Firebase的登陆方式除了基本的邮箱+密码方式，还有第三方账号的登陆方式，包括Google，Facebook，twitter和Gihub，除此之外，Firebase也允许开发者自定义登陆方式 在启用某种登录方式时，需要在Firebase控制台的Auth模块中，在”登录方法“标签页下进行对应的启用</p>
+</blockquote>
+
+<p>firebase目前支持的登录方式有：</p>
+
+<ul>
+  <li>邮箱密码</li>
+  <li>google</li>
+  <li>github</li>
+  <li>facebook</li>
+  <li>自定义登录</li>
+</ul>
+
+<h3 id="section-1">邮箱+密码</h3>
+<p>首先先来看最基本的邮件+密码方式。 <br />
+为了使用身份认证功能，需要为项目添加对firebase-auth库的依赖：<br />
+<code class="highlighter-rouge">
+dependencies {
+    // ...
+    compile 'com.google.firebase:firebase-auth:9.0.0'
+}
+</code><br />
+FirebaseAuth是Firebase身份认证的入口，就是由它来完成身份认证的各种功能 <br />
+FirebaseAuth使用了单例模式，应用的FirebaseAuth对象通过FirebaseAuth.getInstance()获得（说是单例但其实不是很准确，因为getInstance()方法的说明是”返回默认的FirebaseApp实例所对应的FirebaseAuth实例“，该方法也有一个接收FirebaseApp参数的重载版本，但是应用通常不需要和FirebaseApp交互，所使用的FirebaseApp实例就是默认的版本，所以狭义地来说是”单例的“）<br />
+#### 注册用户<br />
+FirebaseAuth的注册方法是：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">mAthu</span><span class="o">.</span><span class="na">createUserWithEmailAndPassword</span><span class="o">(</span>
+             <span class="n">email</span><span class="o">.</span><span class="na">getText</span><span class="o">().</span><span class="na">toString</span><span class="o">(),</span>
+             <span class="n">password</span><span class="o">.</span><span class="na">getText</span><span class="o">().</span><span class="na">toString</span><span class="o">()</span>
+         <span class="o">)</span>
+         <span class="o">.</span><span class="na">addOnCompleteListener</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="k">new</span> <span class="n">OnCompleteListener</span><span class="o">&lt;</span><span class="n">AuthResult</span><span class="o">&gt;()</span> <span class="o">{</span>
+             <span class="nd">@Override</span>
+             <span class="kd">public</span> <span class="kt">void</span> <span class="n">onComplete</span><span class="o">(</span><span class="nd">@NonNull</span> <span class="n">Task</span><span class="o">&lt;</span><span class="n">AuthResult</span><span class="o">&gt;</span> <span class="n">task</span><span class="o">)</span> <span class="o">{</span>
+                 <span class="k">if</span> <span class="o">(!</span><span class="n">task</span><span class="o">.</span><span class="na">isSuccessful</span><span class="o">())</span> <span class="o">{</span>
+                     <span class="c1">// ...</span>
+                 <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+                     <span class="c1">// ...</span>
+                 <span class="o">}</span>
+             <span class="o">}</span>
+         <span class="o">});</span>
+</code></pre>
+</div>
+<p>其中这两个参数分别是邮件和密码。方法将会立即返回一个Task对象，Task类是用于处理Firebase异步操作的，必须使用一个TResult作为类型参数，表示此次操作的结果。<br />
+对于身份，认证这里最终会返回一个AuthResult对象，表示此次认证操作的结果 <br />
+为了监听认证操作的结果，需要为这个Task对象添加一个OnCompleteListener .</p>
+
+<p>当注册成功后，用户会自动登录，即FirebaseAuth会相应地发生改变，为了监听FirebaseAuth状态的变化，可以给其添加一个AuthStateListener。需要注意的是，因为FirebaseAuth是单例的，而且可能会在多个多个活动中使用到FirebasAuth（比如登入，登出，注册等等），所以需要在活动start和stop的时候分别进行add和remove监听器，以防发生冲突：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="kd">private</span> <span class="n">FirebaseAuth</span><span class="o">.</span><span class="na">AuthStateListener</span> <span class="n">mAuthListener</span><span class="o">;</span>
+
+<span class="nd">@Override</span>
+<span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onCreate</span><span class="p">(</span><span class="n">Bundle</span> <span class="n">savedInstanceState</span><span class="o">)</span> <span class="o">{</span>
+
+    <span class="n">mAuthListener</span> <span class="o">=</span> <span class="k">new</span> <span class="n">FirebaseAuth</span><span class="o">.</span><span class="na">AuthStateListener</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nd">@Override</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="n">onAuthStateChanged</span><span class="o">(</span><span class="nd">@NonNull</span> <span class="n">FirebaseAuth</span> <span class="n">firebaseAuth</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">FirebaseUser</span> <span class="n">user</span> <span class="o">=</span> <span class="n">firebaseAuth</span><span class="o">.</span><span class="na">getCurrentUser</span><span class="o">();</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">user</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+                <span class="c1">// 用户已登入或发生改变</span>
+            <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+                <span class="c1">// 用户已注销</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">};</span>
+<span class="o">}</span>
+
+<span class="nd">@Override</span>
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">onStart</span><span class="p">(</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kd">super</span><span class="o">.</span><span class="na">onStart</span><span class="o">();</span>
+    <span class="n">mAuth</span><span class="o">.</span><span class="na">addAuthStateListener</span><span class="o">(</span><span class="n">mAuthListener</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="nd">@Override</span>
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">onStop</span><span class="p">(</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kd">super</span><span class="o">.</span><span class="na">onStop</span><span class="o">();</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">mAuthListener</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">mAuth</span><span class="o">.</span><span class="na">removeAuthStateListener</span><span class="o">(</span><span class="n">mAuthListener</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+<p>通过getCurrentUser()得到对应的FirebaseUser对象，它提供了当前用户的各种用户信息，例如：</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>方法</th>
+      <th>作用</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>String getUid()</td>
+      <td>返回用户的uid</td>
+    </tr>
+    <tr>
+      <td>String getDisplayName()</td>
+      <td>返回用户名</td>
+    </tr>
+    <tr>
+      <td>String getEmail()</td>
+      <td>返回用户email</td>
+    </tr>
+    <tr>
+      <td>String getPhotoUrl()</td>
+      <td>返回用户头像</td>
+    </tr>
+    <tr>
+      <td>boolean isAnonymous()</td>
+      <td>是否匿名</td>
+    </tr>
+    <tr>
+      <td>Task updatePassword(String)</td>
+      <td>更新密码</td>
+    </tr>
+    <tr>
+      <td>Task updateEmail(String)</td>
+      <td>更新email</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 id="section-2">登录</h4>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">mAuth</span><span class="o">.</span><span class="na">signInWithEmailAndPassword</span><span class="o">(</span><span class="n">email</span><span class="o">,</span> <span class="n">password</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">addOnCompleteListener</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="k">new</span> <span class="n">OnCompleteListener</span><span class="o">&lt;</span><span class="n">AuthResult</span><span class="o">&gt;()</span> <span class="o">{</span>
+                    <span class="nd">@Override</span>
+                    <span class="kd">public</span> <span class="kt">void</span> <span class="n">onComplete</span><span class="o">(</span><span class="nd">@NonNull</span> <span class="n">Task</span><span class="o">&lt;</span><span class="n">AuthResult</span><span class="o">&gt;</span> <span class="n">task</span><span class="o">)</span> <span class="o">{</span>
+                        <span class="n">Log</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="n">TAG</span><span class="o">,</span> <span class="s">"signIn:onComplete:"</span> <span class="o">+</span> <span class="n">task</span><span class="o">.</span><span class="na">isSuccessful</span><span class="o">());</span>
+                        <span class="n">hideProgressDialog</span><span class="o">();</span>
+
+                        <span class="k">if</span> <span class="o">(</span><span class="n">task</span><span class="o">.</span><span class="na">isSuccessful</span><span class="o">())</span> <span class="o">{</span>
+                            <span class="n">onAuthSuccess</span><span class="o">(</span><span class="n">task</span><span class="o">.</span><span class="na">getResult</span><span class="o">().</span><span class="na">getUser</span><span class="o">());</span>
+                        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+                            <span class="n">Toast</span><span class="o">.</span><span class="na">makeText</span><span class="o">(</span><span class="n">SignInActivity</span><span class="o">.</span><span class="na">this</span><span class="o">,</span> <span class="s">"Sign In Failed"</span><span class="o">,</span>
+                                    <span class="n">Toast</span><span class="o">.</span><span class="na">LENGTH_SHORT</span><span class="o">).</span><span class="na">show</span><span class="o">();</span>
+                        <span class="o">}</span>
+                    <span class="o">}</span>
+                <span class="o">});</span>
+</code></pre>
+</div>
+
+<h4 id="section-3">注销</h4>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">FirebaseAuth</span><span class="o">.</span><span class="na">getInstance</span><span class="o">().</span><span class="na">signOut</span><span class="o">();</span>
+</code></pre>
+</div>
+
+<h3 id="google">Google账号登录</h3>
+<p>Google Play Services SDK中也提供了使用Google账号的验证方式 <br />
+为了使用这个功能，除了必须的firebase-auth库，还需要为项目添加依赖：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">dependencies</span> <span class="o">{</span>
+    <span class="n">compile</span> <span class="err">'</span><span class="n">com</span><span class="o">.</span><span class="na">google</span><span class="o">.</span><span class="na">android</span><span class="o">.</span><span class="na">gms</span><span class="o">:</span><span class="n">play</span><span class="o">-</span><span class="n">services</span><span class="o">-</span><span class="nl">auth:</span><span class="mf">9.0</span><span class="o">.</span><span class="mi">0</span><span class="err">'</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<h4 id="google-sign-in">配置Google Sign In方案</h4>
+<p>GoogleSignInOptions</p>
+
+<p>GoogleSignInOptions将为后面的登录设定一些选项，它使用建造者模式来产生一个对象。通常会使用默认的DEFAULT_SIGN_IN，然后再为其添加一些额外选项。注意，如果要使用后端服务器或者Google Sign-In进行认证，必须为其提供服务器的OAuth2.0客户端ID，对于Google Sign-In，在将google-services.json添加到项目中并sync完成后，XML中将会自动地加入一系列地配置信息，其中就包括默认的服务器客户端ID：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">GoogleSignInOptions</span> <span class="n">gso</span> <span class="o">=</span> <span class="k">new</span> <span class="n">GoogleSignInOptions</span><span class="o">.</span><span class="na">Builder</span><span class="o">(</span><span class="n">GoogleSignInOptions</span><span class="o">.</span><span class="na">DEFAULT_SIGN_IN</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">requestIdToken</span><span class="o">(</span><span class="n">getString</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">string</span><span class="o">.</span><span class="na">default_web_client_id</span><span class="o">))</span>
+                <span class="o">.</span><span class="na">requestEmail</span><span class="o">()</span>
+                <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+</code></pre>
+</div>
+
+<p>GoogleApiClient</p>
+
+<p>GoogleSignInOptions是用来提供登录选项的，那谁来负责登录呢？就是GoogelApiClient了，关于GoogleApiClient的生成比较复杂，根据官方的建议，一般的写法是：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">mGoogleApiClient</span> <span class="o">=</span> <span class="k">new</span> <span class="n">GoogleApiClient</span><span class="o">.</span><span class="na">Builder</span><span class="o">(</span><span class="k">this</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">enableAutoManage</span><span class="o">(</span><span class="k">this</span> <span class="cm">/* FragmentActivity */</span><span class="o">,</span> <span class="k">this</span> <span class="cm">/* OnConnectionFailedListener */</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">addApi</span><span class="o">(</span><span class="n">Auth</span><span class="o">.</span><span class="na">GOOGLE_SIGN_IN_API</span><span class="o">,</span> <span class="n">gso</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+</code></pre>
+</div>
+
+<p>需要注意的是，enableAutoManage方法是用一个FragmentActivity来自动管理GoogleApiClient，一般是当前所在的活动，该活动必须继承于FragmentActivity或AppCompatActivity，否则就必须手动管理GoogleApiClient的连接周期。另一个参数则是用来监听连接失败时间的监听器 <br />
+在addApi方法中，传入之前创建的GoogleSignInOptions对象</p>
+
+<p>Google推荐使用专门的Button来作登录按钮：</p>
+
+<p><img src="https://developers.google.com/identity/images/btn_google_signin_light_normal_web.png" alt="google button" /><br />
+这个控件就是SignInButton。它提供了setSize()，setColorScheme()和setScopes()来为外观进行定制</p>
+
+<p>需要使用到的三个部件介绍完了，接下来就是Google Sign-In的登录流程：<br />
+1. SignInButton点击事件</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">Intent</span> <span class="n">signInIntent</span> <span class="o">=</span> <span class="n">Auth</span><span class="o">.</span><span class="na">GoogleSignInApi</span><span class="o">.</span><span class="na">getSignInIntent</span><span class="o">(</span><span class="n">mGoogleApiClient</span><span class="o">);</span>
+<span class="n">startActivityForResult</span><span class="o">(</span><span class="n">signInIntent</span><span class="o">,</span> <span class="n">RC_SIGN_IN</span><span class="o">);</span>
+</code></pre>
+</div>
+
+<ol>
+  <li>设置回调逻辑</li>
+</ol>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="nd">@Override</span>
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">onActivityResult</span><span class="p">(</span><span class="kt">int</span> <span class="n">requestCode</span><span class="o">,</span> <span class="kt">int</span> <span class="n">resultCode</span><span class="o">,</span> <span class="n">Intent</span> <span class="n">data</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kd">super</span><span class="o">.</span><span class="na">onActivityResult</span><span class="o">(</span><span class="n">requestCode</span><span class="o">,</span> <span class="n">resultCode</span><span class="o">,</span> <span class="n">data</span><span class="o">);</span>
+
+    <span class="c1">// Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">requestCode</span> <span class="o">==</span> <span class="n">RC_SIGN_IN</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">GoogleSignInResult</span> <span class="n">result</span> <span class="o">=</span> <span class="n">Auth</span><span class="o">.</span><span class="na">GoogleSignInApi</span><span class="o">.</span><span class="na">getSignInResultFromIntent</span><span class="o">(</span><span class="n">data</span><span class="o">);</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">result</span><span class="o">.</span><span class="na">isSuccess</span><span class="o">())</span> <span class="o">{</span>
+            <span class="c1">// ...</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+            <span class="c1">// ...</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p>Google Sign-In的介绍就大概是这样了 <br />
+至于第三方账号的支持，如Facebook，Twitter和Github，流程基本都是根据对应SDK获得对应的令牌对象，然后根据令牌创建AuthCredential，最后FirebaseAuth调用signInWithCredential()方法进行登录即可</p>
+
+<p>至于服务器自定义认证的方式涉及到服务器的配置，所以介绍的篇幅会比较长，这里就不作介绍，等到以后有机会再写吧 <br />
+Firebase的身份认证模块就介绍到这了，后面将会持续对其他模块进行学习</p>
+
+
+
+                <hr style="visibility: hidden;">
+
+                
+                <!-- 多说 Share start -->
+                <div class="ds-share"
+                    style="text-align: right"
+                    data-thread-key="/2016/12/28/firebase-part1"
+                    data-title="Firebase-part1-Authentication"
+                    data-url="https://shadowera.github.io/2016/12/28/firebase-part1/"
+                    data-images="https://shadowera.github.io/img/about-bg.jpg"
+                    data-content="首先
+当app发展到本地以外，就不得不牵扯到服务器了，当然这对于大公司来说并不是什么大问题，服务器有后台人员维护，网站有前端
+人员负责，移动端也有对应人员... | 桂帅的博客 | Gs Blog " >
+                    <div class="ds-share-inline">
+                      <style> 
+                        .ds-share-icons-16 {display:none;} 
+                      </style>
+                      <ul class="ds-share-icons-16">
+                        <li data-toggle="ds-share-icons-more"><a class="ds-more" href="#">分享到：</a></li>
+                        <li><a class="ds-wechat flat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+                        <li><a class="ds-weibo flat" href="javascript:void(0);" data-service="weibo">微博</a></li>
+                        <li><a class="ds-douban flat" href="javascript:void(0);" data-service="douban">豆瓣</a></li>
+                      </ul>
+                      <div class="ds-share-icons-more">
+                      </div>
+                    </div>
+                <hr>
+                </div>
+                <!-- 多说 Share end-->
+                
+
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2016/10/17/transitions-part1/" data-toggle="tooltip" data-placement="top" title="Android Tansitions (part 1)">
+                        Previous<br>
+                        <span>Android Tansitions (part 1)</span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2016/12/28/firebase-part2/" data-toggle="tooltip" data-placement="top" title="Firebase-part1-Realtime Database">
+                        Next<br>
+                        <span>Firebase-part1-Realtime Database</span>
+                        </a>
+                    </li>
+                    
+                </ul>
+
+
+                
+                <!-- 多说评论框 start -->
+                <div class="comment">
+                    <div class="ds-thread"
+                        data-thread-key="/2016/12/28/firebase-part1"
+                        data-title="Firebase-part1-Authentication"
+                        data-url="https://shadowera.github.io/2016/12/28/firebase-part1/" >
+                    </div>
+                </div>
+                <!-- 多说评论框 end -->
+                
+
+                
+
+            </div>  
+
+    <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+        
+
+    <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+        				
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#android" title="android" rel="2">
+                                    android
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#Firebase" title="Firebase" rel="2">
+                                    Firebase
+                                </a>
+                            
+        				
+        			</div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+                    
+                        <li><a href="http://www.diycode.cc/">DiyCode</a></li>
+                    
+                        <li><a href="http://codekk.com">CodeKK</a></li>
+                    
+                        <li><a href="http://www.trinea.cn/">Trinea</a></li>
+                    
+                        <li><a href="http://notes.stay4it.com/">Stay</a></li>
+                    
+                        <li><a href="http://android-developers.blogspot.com/">安卓开发者官博</a></li>
+                    
+                        <li><a href="http://blog.csdn.net/Luoshengyang">老罗的Android之旅</a></li>
+                    
+                        <li><a href="http://hukai.me/">胡凯</a></li>
+                    
+                        <li><a href="http://blog.daimajia.com/">代码家</a></li>
+                    
+                        <li><a href="http://blog.csdn.net/guolin_blog">郭霖的专栏</a></li>
+                    
+                        <li><a href="http://stormzhang.com/">stormzhang博客精华</a></li>
+                    
+                        <li><a href="http://blog.csdn.net/lmj623565791/">张鸿洋</a></li>
+                    
+                        <li><a href="http://blog.csdn.net/xyz_lmn">张兴业的博客</a></li>
+                    
+                        <li><a href="http://blog.csdn.net/lzyzsd/">hi大头鬼hi</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    // dynamic User by Hux
+    var _user = 'shadowera';
+
+    // duoshuo comment query.
+    var duoshuoQuery = {short_name: _user };
+    (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0]
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+</script>
+<!-- 多说公共JS代码 end -->
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("//cdnjs.cloudflare.com/ajax/libs/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+                    
+                    <li>
+                        <a href="https://twitter.com/_shadowera">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+
+                    <!-- add Weibo, Zhihu by Hux, add target = "_blank" to <a> by Hux -->
+                    
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/gui-shuai-1">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li>
+                        <a target="_blank" href="http://weibo.com/3753410913">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+
+
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/shadowera">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Gs Blog 2016
+                   <!-- <br>
+                    Theme by <a href="http://huangxuan.me">Hux</a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=huxpro&repo=huxpro.github.io&type=star&count=true" >
+                    </iframe>-->
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js "></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js "></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js "></script>
+
+<!-- Service Worker -->
+
+<script type="text/javascript">
+    if(navigator.serviceWorker){
+        // For security reasons, a service worker can only control the pages that are in the same directory level or below it. That's why we put sw.js at ROOT level.
+        navigator.serviceWorker
+            .register('/sw.js')
+            .then((registration) => {console.log('Service Worker Registered. ', registration)})
+            .catch((error) => {console.log('ServiceWorker registration failed: ', error)})
+    }
+</script>
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/ 
+     - https://github.com/jneen/rouge/wiki/list-of-supported-languages-and-lexers   
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async('/js/jquery.tagcloud.js',function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = '3c1948f36cbe96c9e1e3f845f32fefb0';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+
+<!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog (selector) {
+        var P = $('div.post-container'),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;    
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function(e){
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

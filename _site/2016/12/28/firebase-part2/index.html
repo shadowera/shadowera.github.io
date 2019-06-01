@@ -19,7 +19,7 @@
     <link rel="shortcut icon" href="/img/favicon.ico">
     
     <!-- Canonical URL -->
-    <link rel="canonical" href="https://shadowera.github.io/2016/12/28/firebase-part2/">
+    <link rel="canonical" href="http://localhost:4000/2016/12/28/firebase-part2/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -78,10 +78,6 @@
                 <ul class="nav navbar-nav navbar-right">
                     <li>
                         <a href="/">Home</a>
-                    </li>
-                    
-                    <li>
-                        <a href="/she/">She</a>
                     </li>
                     
                     <li>
@@ -204,10 +200,10 @@
 
 <p>实时数据库，顾名思义，就是不需要客户端自己去轮询，而是每当监听的区域发生变动时，数据库都会通知客户端去更新，设备将会在毫秒级的时间内接收到数据更新</p>
 
-<p>除此之外，考虑到写数据时遇到的无网络连接问题，Firebase的数据库API使用了本地缓存，使得在离线状态下也能保持读写不失败，并且会在网络恢复连接时和服务器进行同步 <br />
+<p>除此之外，考虑到写数据时遇到的无网络连接问题，Firebase的数据库API使用了本地缓存，使得在离线状态下也能保持读写不失败，并且会在网络恢复连接时和服务器进行同步 
 和常见的数据库服务器不同，Firebase使用JSON存储数据，这使得数据结构非常可观</p>
 
-<h1 id="section">数据结构</h1>
+<h1 id="数据结构">数据结构</h1>
 
 <p>所有 Firebase Realtime Database 数据都被存储为 JSON 对象。您可将该数据库视为云托管 JSON 树。</p>
 
@@ -251,7 +247,7 @@
 </table>
 
 <h1 id="android-firebase-database-api">Android Firebase Database api</h1>
-<p>## 读写授权</p>
+<h2 id="读写授权">读写授权</h2>
 
 <p>数据库的默认rule是：</p>
 
@@ -263,7 +259,7 @@
 }
 </code></pre>
 
-<p>这里表示根节点读写的条件是认证不为空，说明需要身份验证才能获得权限（auth是规则的预定义变量，后面会讲到） <br />
+<p>这里表示根节点读写的条件是认证不为空，说明需要身份验证才能获得权限（auth是规则的预定义变量，后面会讲到） 
 对应字符串中的逻辑计算结果决定了此节点下的读写权限</p>
 
 <p>.read和.write是级联的，也就是说，父节点的读写权限直接决定子节点的读写权限，子节点的设置将被忽略</p>
@@ -282,9 +278,9 @@
 
 <p>由于父节点禁止了读取，即使子节点允许读取，也是没有用的</p>
 
-<h2 id="section-1">数据验证</h2>
-<p>validate将会对新写入的数据进行验证，验证通过的数据方可写入。<br />
-因此.validate发挥作用需要.write为true，另外，因为.validate是检查新数据，<br />
+<h2 id="数据验证">数据验证</h2>
+<p>validate将会对新写入的数据进行验证，验证通过的数据方可写入。
+因此.validate发挥作用需要.write为true，另外，因为.validate是检查新数据，
 因此常需要和newData变量搭配使用（newData是预定义常量，表示写入操作后应有的数据，包含新数据和未改动数据）</p>
 
 <pre><code class="language-JSON">{
@@ -312,7 +308,7 @@
 }
 </code></pre>
 
-<h2 id="section-2">预定义变量</h2>
+<h2 id="预定义变量">预定义变量</h2>
 
 <table>
   <thead>
@@ -349,7 +345,7 @@
   </tbody>
 </table>
 
-<h2 id="section-3">索引</h2>
+<h2 id="索引">索引</h2>
 
 <p>使用.indexOn来规划索引，索引可以帮助提高检索性能：</p>
 
@@ -368,30 +364,28 @@
 
 <p>Firebase的SDK当然是必不可少的了，为了使用数据库相关的API，需要在应用的依赖项中添加：</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>    <span class="n">compile</span> <span class="err">'</span><span class="n">com</span><span class="o">.</span><span class="na">google</span><span class="o">.</span><span class="na">firebase</span><span class="o">:</span><span class="n">firebase</span><span class="o">-</span><span class="nl">database:</span><span class="o">...</span><span class="err">'</span>
-</code></pre>
-</div>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="n">compile</span> <span class="err">'</span><span class="n">com</span><span class="o">.</span><span class="na">google</span><span class="o">.</span><span class="na">firebase</span><span class="o">:</span><span class="n">firebase</span><span class="o">-</span><span class="nl">database:</span><span class="o">...</span><span class="err">'</span>
+</code></pre></div></div>
 
 <p>为了和数据库交互，需要得到数据库的一个实例，</p>
 
 <p>而且具体的交互对象是数据库中的某个节点，这时就需要获得这个节点的一个引用：</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">FirebaseDatabase</span> <span class="n">database</span> <span class="o">=</span> <span class="n">FirebaseDatabase</span><span class="o">.</span><span class="na">getInstance</span><span class="o">();</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">FirebaseDatabase</span> <span class="n">database</span> <span class="o">=</span> <span class="n">FirebaseDatabase</span><span class="o">.</span><span class="na">getInstance</span><span class="o">();</span>
 <span class="n">DatabaseReference</span> <span class="n">mRef</span> <span class="o">=</span> <span class="n">database</span><span class="o">.</span><span class="na">getReference</span><span class="o">(</span><span class="s">"students"</span><span class="o">);</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
-<h3 id="section-4">写</h3>
-<p>写操作包括了增和删，但是SDK并没有对这两个操作进行明显的区分，而是将其视为写操作，SDK中有四种写操作：<br />
-| 方法 | 说明 |<br />
-—–|—-<br />
-setValue()	|在指定的路径，将数据写入或替换<br />
-push()	|生成唯一ID，路径进入到此ID中<br />
-updateChildren()	|更新此路径中的部分键值，而不是所有数据<br />
+<h3 id="写">写</h3>
+<p>写操作包括了增和删，但是SDK并没有对这两个操作进行明显的区分，而是将其视为写操作，SDK中有四种写操作：
+| 方法 | 说明 |
+—–|—-
+setValue()	|在指定的路径，将数据写入或替换
+push()	|生成唯一ID，路径进入到此ID中
+updateChildren()	|更新此路径中的部分键值，而不是所有数据
 runTransaction()	|进行并发更新</p>
 
-<h3 id="setvalueobjectsetvalue">setValue(Object)是最基本的写操作。得到某个节点的引用后，调用setValue()即可写入数据，</h3>
-<p>如果该节点原本就有数据，则会覆盖该节点下的所有数据 <br />
+<h3 id="setvalueobject是最基本的写操作得到某个节点的引用后调用setvalue即可写入数据">setValue(Object)是最基本的写操作。得到某个节点的引用后，调用setValue()即可写入数据，</h3>
+<p>如果该节点原本就有数据，则会覆盖该节点下的所有数据 
 由于数据库使用了JSON作为数据格式，setValue()可接受的参数类型有：</p>
 
 <ol>
@@ -404,11 +398,11 @@ runTransaction()	|进行并发更新</p>
       <li>List&lt; Object &gt;</li>
     </ul>
   </li>
-  <li>传递自定义 Java 对象（如果定义该对象的类的默认构造函数不接受参数，且为要指定的属性提供了公用 getter）。 <br />
+  <li>传递自定义 Java 对象（如果定义该对象的类的默认构造函数不接受参数，且为要指定的属性提供了公用 getter）。 
 如果使用 Java 对象，则对象的内容将自动以嵌套方式映射到子位置。</li>
 </ol>
 
-<h3 id="section-5">离线写入数据</h3>
+<h3 id="离线写入数据">离线写入数据</h3>
 
 <p>如果客户端失去网络连接，您的应用将继续正常运行。</p>
 
@@ -418,9 +412,9 @@ runTransaction()	|进行并发更新</p>
 
 <p>重新建立连接之后，您的应用将收到一组适当的事件，以便客户端与当前服务器状态同步，而不必编写任何自定义代码。</p>
 
-<h3 id="section-6">检索数据</h3>
-<p>Firebase 数据可通过将异步侦听器附加到 FirebaseDatabase 引用来检索。 <br />
-侦听器由数据的初始状态触发一次，并在数据发生任何更改时再次触发。<br />
+<h3 id="检索数据">检索数据</h3>
+<p>Firebase 数据可通过将异步侦听器附加到 FirebaseDatabase 引用来检索。 
+侦听器由数据的初始状态触发一次，并在数据发生任何更改时再次触发。
 您可以侦听以下类型的数据检索事件：</p>
 
 <table>
@@ -460,7 +454,7 @@ runTransaction()	|进行并发更新</p>
   </tbody>
 </table>
 
-<h3 id="section-7">排序数据</h3>
+<h3 id="排序数据">排序数据</h3>
 
 <p>要检索排序数据，请先指定排序依据方法之一，确定如何对结果排序</p>
 
@@ -491,7 +485,7 @@ runTransaction()	|进行并发更新</p>
   </tbody>
 </table>
 
-<h3 id="section-8">过滤数据</h3>
+<h3 id="过滤数据">过滤数据</h3>
 <p>要过滤数据，您可以结合使用限制或范围方法之一与排序依据方法来构造查询。</p>
 
 <table>
@@ -525,7 +519,7 @@ runTransaction()	|进行并发更新</p>
   </tbody>
 </table>
 
-<h1 id="section-9">服务器</h1>
+<h1 id="服务器">服务器</h1>
 
 <ul>
   <li>创建帐户并配置项目</li>
@@ -542,8 +536,8 @@ runTransaction()	|进行并发更新</p>
                     style="text-align: right"
                     data-thread-key="/2016/12/28/firebase-part2"
                     data-title="Firebase-part1-Realtime Database"
-                    data-url="https://shadowera.github.io/2016/12/28/firebase-part2/"
-                    data-images="https://shadowera.github.io/img/about-bg.jpg"
+                    data-url="http://localhost:4000/2016/12/28/firebase-part2/"
+                    data-images="http://localhost:4000/img/about-bg.jpg"
                     data-content="Before
 
 既然Firebase是做后端数据库起家的，那就自然少不了实时数据库这一块了
@@ -587,7 +581,7 @@ runTransaction()	|进行并发更新</p>
                     <div class="ds-thread"
                         data-thread-key="/2016/12/28/firebase-part2"
                         data-title="Firebase-part1-Realtime Database"
-                        data-url="https://shadowera.github.io/2016/12/28/firebase-part2/" >
+                        data-url="http://localhost:4000/2016/12/28/firebase-part2/" >
                     </div>
                 </div>
                 <!-- 多说评论框 end -->
@@ -804,7 +798,7 @@ runTransaction()	|进行并发更新</p>
                     
                 </ul>
                 <p class="copyright text-muted">
-                    Copyright &copy; Gs Blog 2017
+                    Copyright &copy; Gs Blog 2019
                    <!-- <br>
                     Theme by <a href="http://huangxuan.me">Hux</a> |
                     <iframe

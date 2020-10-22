@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/shadowera.github.io.iml" filepath="$PROJECT_DIR$/.idea/shadowera.github.io.iml" />
+      <module fileurl="file://$PROJECT_DIR$/shadowera.github.io.iml" filepath="$PROJECT_DIR$/shadowera.github.io.iml" />
     </modules>
   </component>
 </project>

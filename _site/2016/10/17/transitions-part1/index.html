@@ -19,7 +19,7 @@
     <link rel="shortcut icon" href="/img/favicon.ico">
     
     <!-- Canonical URL -->
-    <link rel="canonical" href="http://localhost:4000/2016/10/17/transitions-part1/">
+    <link rel="canonical" href="https://shadowera.github.io/2016/10/17/transitions-part1/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -303,7 +303,7 @@ Lollipop 中 Activity 和 Fragment 的过渡动画是基于 Android 一个叫作
 
 <blockquote>
   <p>假设 <strong>A</strong> 和 <strong>B</strong> 是两个 Activity，通过 <strong>A</strong> 来启动 <strong>B</strong>。
-<strong>A</strong> 叫做 “调用Activity”(调用 <code class="highlighter-rouge">startActivity()</code> 的那个)
+<strong>A</strong> 叫做 “调用Activity”(调用 <code class="language-plaintext highlighter-rouge">startActivity()</code> 的那个)
 <strong>B</strong> 就是 “被调用Activity”</p>
 </blockquote>
 
@@ -361,26 +361,26 @@ Lollipop 中 Activity 和 Fragment 的过渡动画是基于 Android 一个叫作
 
 <ul>
   <li>
-    <p>在你的A(调用Activity)和B(被调用Activity)的 <code class="highlighter-rouge">.java</code> 文件或者
-<code class="highlighter-rouge">xml</code><a id="3" href="#b3">(3)</a>布局中请求启用
-<a href="http://developer.android.com/reference/android/view/Window.html#FEATURE_ACTIVITY_TRANSITIONS"><code class="highlighter-rouge">Window.FEATURE_ACTIVITY_TRANSITIONS</code></a> 窗口特性，
+    <p>在你的A(调用Activity)和B(被调用Activity)的 <code class="language-plaintext highlighter-rouge">.java</code> 文件或者
+<code class="language-plaintext highlighter-rouge">xml</code><a id="3" href="#b3">(3)</a>布局中请求启用
+<a href="http://developer.android.com/reference/android/view/Window.html#FEATURE_ACTIVITY_TRANSITIONS"><code class="language-plaintext highlighter-rouge">Window.FEATURE_ACTIVITY_TRANSITIONS</code></a> 窗口特性，
 使用Material主题的应用默认已开启。</p>
   </li>
   <li>
     <p>为A和B单独设置 <a href="https://developer.android.com/reference/android/view/Window.html#setExitTransition(android.transition.Transition)"><strong>exit</strong></a> 和 <a href="https://developer.android.com/reference/android/view/Window.html#setEnterTransition(android.transition.Transition)"><strong>enter</strong></a> Content Transition 。
 Material主题的 <a href="https://developer.android.com/reference/android/view/Window.html#setExitTransition(android.transition.Transition)"><strong>exit</strong></a> 和 <a href="https://developer.android.com/reference/android/view/Window.html#setEnterTransition(android.transition.Transition)"><strong>enter</strong></a> Content Transition 默认分别是
-<code class="highlighter-rouge">null</code>和<code class="highlighter-rouge">Fade</code>。如果没有明确定义 <a href="https://developer.android.com/reference/android/view/Window.html#setSharedElementReenterTransition(android.transition.Transition)"><strong>reenter</strong></a> 或 <a href="https://developer.android.com/reference/android/view/Window.html#setReturnTransition(android.transition.Transition)"><strong>return</strong></a>
+<code class="language-plaintext highlighter-rouge">null</code>和<code class="language-plaintext highlighter-rouge">Fade</code>。如果没有明确定义 <a href="https://developer.android.com/reference/android/view/Window.html#setSharedElementReenterTransition(android.transition.Transition)"><strong>reenter</strong></a> 或 <a href="https://developer.android.com/reference/android/view/Window.html#setReturnTransition(android.transition.Transition)"><strong>return</strong></a>
 Content Transition 将会使用 Activity 的 <a href="https://developer.android.com/reference/android/view/Window.html#setExitTransition(android.transition.Transition)"><strong>exit</strong></a> 和 <a href="https://developer.android.com/reference/android/view/Window.html#setEnterTransition(android.transition.Transition)"><strong>enter</strong></a>
  Transition 来代替。</p>
   </li>
   <li>为 A 和 B 设置 <a href="https://developer.android.com/reference/android/view/Window.html#setExitTransition(android.transition.Transition)"><strong>exit</strong></a> 和 <a href="https://developer.android.com/reference/android/view/Window.html#setEnterTransition(android.transition.Transition)"><strong>enter</strong></a> 共享元素 Transition。
-Material主题中共享元素默认设置 <a href="https://github.com/android/platform_frameworks_base/blob/lollipop-release/core/res/res/transition/move.xml"><code class="highlighter-rouge">@android:transition/move</code></a> 作为
+Material主题中共享元素默认设置 <a href="https://github.com/android/platform_frameworks_base/blob/lollipop-release/core/res/res/transition/move.xml"><code class="language-plaintext highlighter-rouge">@android:transition/move</code></a> 作为
 <a href="https://developer.android.com/reference/android/view/Window.html#setExitTransition(android.transition.Transition)"><strong>exit</strong></a> 和 <a href="https://developer.android.com/reference/android/view/Window.html#setEnterTransition(android.transition.Transition)"><strong>enter</strong></a> 过渡动画。如果没有明确定义
 <a href="https://developer.android.com/reference/android/view/Window.html#setSharedElementReenterTransition(android.transition.Transition)"><strong>reenter</strong></a> 和 <a href="https://developer.android.com/reference/android/view/Window.html#setReturnTransition(android.transition.Transition)"><strong>return</strong></a> 的过渡动画将会使用 Activity 的
 <a href="https://developer.android.com/reference/android/view/Window.html#setExitTransition(android.transition.Transition)"><strong>exit</strong></a> 和 <a href="https://developer.android.com/reference/android/view/Window.html#setEnterTransition(android.transition.Transition)"><strong>enter</strong></a> 过渡动画作为替代。</li>
   <li>
     <p>启动一个包含 Content Transition 和 共享元素 Transition 的 Activity 时要调用
-<code class="highlighter-rouge">startActivity(Context, Bundle) </code>方法，其中第二参数 Bundle 通过下面这段代码获得：</p>
+<code class="language-plaintext highlighter-rouge">startActivity(Context, Bundle) </code>方法，其中第二参数 Bundle 通过下面这段代码获得：</p>
 
     <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="n">ActivityOptions</span><span class="o">.</span><span class="na">makeSceneTransitionAnimation</span><span class="o">(</span><span class="n">activity</span><span class="o">,</span> <span class="n">pairs</span><span class="o">).</span><span class="na">toBundle</span><span class="o">();</span>
 </code></pre></div>    </div>
@@ -404,17 +404,17 @@ Material主题中共享元素默认设置 <a href="https://github.com/android/pl
 
 <ul>
   <li>
-    <p>Content 的<a href="https://developer.android.com/reference/android/view/Window.html#setExitTransition(android.transition.Transition)">退出</a>，<a href="https://developer.android.com/reference/android/view/Window.html#setEnterTransition(android.transition.Transition)">进入</a>，<a href="https://developer.android.com/reference/android/view/Window.html#setSharedElementReenterTransition(android.transition.Transition)">重入</a>和<a href="https://developer.android.com/reference/android/view/Window.html#setReturnTransition(android.transition.Transition)">返回</a> 过渡动画应该在 Fragment 的<code class="highlighter-rouge">.java</code>文件中调用对应的方法或者在 xml 属性声明里设置。</p>
+    <p>Content 的<a href="https://developer.android.com/reference/android/view/Window.html#setExitTransition(android.transition.Transition)">退出</a>，<a href="https://developer.android.com/reference/android/view/Window.html#setEnterTransition(android.transition.Transition)">进入</a>，<a href="https://developer.android.com/reference/android/view/Window.html#setSharedElementReenterTransition(android.transition.Transition)">重入</a>和<a href="https://developer.android.com/reference/android/view/Window.html#setReturnTransition(android.transition.Transition)">返回</a> 过渡动画应该在 Fragment 的<code class="language-plaintext highlighter-rouge">.java</code>文件中调用对应的方法或者在 xml 属性声明里设置。</p>
   </li>
   <li>
-    <p>共享元素 的<a href="https://developer.android.com/reference/android/view/Window.html#setEnterTransition(android.transition.Transition)">进入</a>和 <a href="https://developer.android.com/reference/android/view/Window.html#setReturnTransition(android.transition.Transition)">返回</a> 过渡动画应该在 Fragment 的<code class="highlighter-rouge">.java</code>文件中调用对应的方法或者在 xml 属性声明里设置。</p>
+    <p>共享元素 的<a href="https://developer.android.com/reference/android/view/Window.html#setEnterTransition(android.transition.Transition)">进入</a>和 <a href="https://developer.android.com/reference/android/view/Window.html#setReturnTransition(android.transition.Transition)">返回</a> 过渡动画应该在 Fragment 的<code class="language-plaintext highlighter-rouge">.java</code>文件中调用对应的方法或者在 xml 属性声明里设置。</p>
   </li>
   <li>
     <p>鉴于Activity的 Transition 是通过调用 <strong>startActivity()</strong> 和 <strong>finishAfterTransition()</strong> 直接启动的,Fragment 的过渡是在 Fragment
 被add, remove, attach, detach, show,或 hidden 后由 FragmentTransaction 自动启动。</p>
   </li>
   <li>
-    <p>共享元素应该在transaction(事务)提交前调用<a href="https://developer.android.com/reference/android/app/FragmentTransaction.html#addSharedElement(android.view.View,%20java.lang.String)"><code class="highlighter-rouge">addSharedElement(View, String)</code></a>声明为 <strong>FragmentTransaction</strong> 的一部分。</p>
+    <p>共享元素应该在transaction(事务)提交前调用<a href="https://developer.android.com/reference/android/app/FragmentTransaction.html#addSharedElement(android.view.View,%20java.lang.String)"><code class="language-plaintext highlighter-rouge">addSharedElement(View, String)</code></a>声明为 <strong>FragmentTransaction</strong> 的一部分。</p>
   </li>
 </ul>
 
@@ -453,8 +453,8 @@ Material主题中共享元素默认设置 <a href="https://github.com/android/pl
                     style="text-align: right"
                     data-thread-key="/2016/10/17/transitions-part1"
                     data-title="Android Tansitions (part 1)"
-                    data-url="http://localhost:4000/2016/10/17/transitions-part1/"
-                    data-images="http://localhost:4000/img/android-robot.jpg"
+                    data-url="https://shadowera.github.io/2016/10/17/transitions-part1/"
+                    data-images="https://shadowera.github.io/img/android-robot.jpg"
                     data-content="开始使用 Transitions（过渡动画） (part 1)
 
 
@@ -506,7 +506,7 @@ Material主题中共享元素默认设置 <a href="https://github.com/android/pl
                     <div class="ds-thread"
                         data-thread-key="/2016/10/17/transitions-part1"
                         data-title="Android Tansitions (part 1)"
-                        data-url="http://localhost:4000/2016/10/17/transitions-part1/" >
+                        data-url="https://shadowera.github.io/2016/10/17/transitions-part1/" >
                     </div>
                 </div>
                 <!-- 多说评论框 end -->
@@ -723,7 +723,7 @@ Material主题中共享元素默认设置 <a href="https://github.com/android/pl
                     
                 </ul>
                 <p class="copyright text-muted">
-                    Copyright &copy; Gs Blog 2019
+                    Copyright &copy; Gs Blog 2020
                    <!-- <br>
                     Theme by <a href="http://huangxuan.me">Hux</a> |
                     <iframe

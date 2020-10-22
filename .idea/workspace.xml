@@ -1,24 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="499c2daf-a441-400d-8310-287b14a8bcfc" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shadowera.github.io.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_site/2016/10/14/hello-world/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/_site/2016/10/14/hello-world/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_site/2016/10/17/transitions-part1/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/_site/2016/10/17/transitions-part1/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_site/2016/12/28/firebase-part1/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/_site/2016/12/28/firebase-part1/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_site/2016/12/28/firebase-part2/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/_site/2016/12/28/firebase-part2/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_site/404.html" beforeDir="false" afterPath="$PROJECT_DIR$/_site/404.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_site/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/_site/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_site/offline.html" beforeDir="false" afterPath="$PROJECT_DIR$/_site/offline.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_site/tags/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/_site/tags/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cube/js/hammer.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/cube/js/hammer.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/she/3.jpeg" beforeDir="false" afterPath="$PROJECT_DIR$/she/3.jpeg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/she/4.jpeg" beforeDir="false" afterPath="$PROJECT_DIR$/she/4.jpeg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/she/5.jpeg" beforeDir="false" afterPath="$PROJECT_DIR$/she/5.jpeg" afterDir="false" />
-    </list>
+    <list default="true" id="499c2daf-a441-400d-8310-287b14a8bcfc" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -127,17 +110,37 @@
       <option name="presentableId" value="Default" />
       <updated>1603090918560</updated>
       <workItem from="1603090919731" duration="928000" />
-      <workItem from="1603364640292" duration="2432000" />
+      <workItem from="1603364640292" duration="2809000" />
     </task>
+    <task id="LOCAL-00001" summary="test">
+      <created>1603368132553</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1603368132553</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="test" />
+    <option name="LAST_COMMIT_MESSAGE" value="test" />
   </component>
   <component name="WindowStateProjectService">
     <state x="366" y="259" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1603091361434">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="366" y="259" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1440.900@0.0.1440.900" timestamp="1603091361434" />
+    <state x="250" y="24" key="CommitChangelistDialog2" timestamp="1603368132267">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="250" y="24" key="CommitChangelistDialog2/0.0.1440.900@0.0.1440.900" timestamp="1603368132267" />
+    <state x="320" y="190" key="Vcs.Push.Dialog.v2" timestamp="1603368143649">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="320" y="190" key="Vcs.Push.Dialog.v2/0.0.1440.900@0.0.1440.900" timestamp="1603368143649" />
   </component>
 </project>

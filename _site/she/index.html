@@ -618,10 +618,8 @@
      * @param e
      */
     function onPan(e) {
-        let final = e.isFinal;
-        console.log(e);
-        x += -e.deltaX / 400 / 4;
-        y += -e.deltaY / 400 / 4;
+        x += -e.deltaY / 4000 / 4;
+        y += e.deltaX / 4000 / 4;
         r += e.distance / 4000;
         space3d.style.transform = "rotateX(" + x + "turn) rotateY(" + y + "turn)";
     }

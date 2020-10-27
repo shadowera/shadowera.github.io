@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="499c2daf-a441-400d-8310-287b14a8bcfc" name="Default Changelist" comment="">
+    <list default="true" id="499c2daf-a441-400d-8310-287b14a8bcfc" name="Default Changelist" comment="test">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/_site/she/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/_site/she/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/she/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/she/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -127,7 +127,7 @@
       <workItem from="1603416599746" duration="436000" />
       <workItem from="1603417672309" duration="85000" />
       <workItem from="1603693840074" duration="3771000" />
-      <workItem from="1603698046819" duration="17848000" />
+      <workItem from="1603698046819" duration="18536000" />
     </task>
     <task id="LOCAL-00001" summary="test">
       <created>1603368132553</created>
@@ -162,18 +162,22 @@
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="366" y="259" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1440.900@0.0.1440.900" timestamp="1603091361434" />
-    <state x="250" y="24" key="CommitChangelistDialog2" timestamp="1603368493914">
+    <state x="250" y="24" key="CommitChangelistDialog2" timestamp="1603785261004">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state x="250" y="24" key="CommitChangelistDialog2/0.0.1440.900@0.0.1440.900" timestamp="1603368493914" />
+    <state x="250" y="24" key="CommitChangelistDialog2/0.0.1440.900@0.0.1440.900" timestamp="1603785261004" />
+    <state x="144" y="79" key="DiffContextDialog" timestamp="1603785269601">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="144" y="79" key="DiffContextDialog/0.0.1440.900@0.0.1440.900" timestamp="1603785269601" />
     <state x="221" y="89" key="SettingsEditor" timestamp="1603763170955">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="221" y="89" key="SettingsEditor/0.0.1440.900@0.0.1440.900" timestamp="1603763170955" />
-    <state x="320" y="190" key="Vcs.Push.Dialog.v2" timestamp="1603784788999">
+    <state x="320" y="190" key="Vcs.Push.Dialog.v2" timestamp="1603785410247">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state x="320" y="190" key="Vcs.Push.Dialog.v2/0.0.1440.900@0.0.1440.900" timestamp="1603784788999" />
+    <state x="320" y="190" key="Vcs.Push.Dialog.v2/0.0.1440.900@0.0.1440.900" timestamp="1603785410247" />
     <state x="636" y="272" width="598" height="548" key="find.popup" timestamp="1603770097406">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
